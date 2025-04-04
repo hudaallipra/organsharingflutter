@@ -6,6 +6,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         title: Text('Login'),
         centerTitle: true,
@@ -48,9 +49,9 @@ class Login extends StatelessWidget {
               child: Text(
                 'Login',
                 style: TextStyle(color: Colors.white),
-              ),
+              ), 
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue, // button background color
+                backgroundColor: Colors.blue, // button background color
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
                 ),
