@@ -1,4 +1,11 @@
+
 import 'package:flutter/material.dart';
+import 'package:organsharing/login.dart';
+import 'package:organsharing/myAppointments.dart';
+import 'package:organsharing/organdetails.dart';
+import 'package:organsharing/profile.dart';
+import 'package:organsharing/status.dart';
+import 'package:organsharing/viewMyRequestes.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -7,10 +14,17 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Organ Sharing', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
-        backgroundColor: Colors.teal,
+        title: const Text(
+          'Organ Sharing',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.teal[700],
         centerTitle: true,
-        elevation: 4,
+        elevation: 0,
       ),
       drawer: Drawer(
         child: ListView(
@@ -18,120 +32,225 @@ class HomePage extends StatelessWidget {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.teal,
+                gradient: LinearGradient(
+                  colors: [Colors.teal[700]!, Colors.teal[400]!],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  SizedBox(height: 10),
-                  Text(
+                  const Text(
                     'Organ Sharing',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 24,
+                      fontSize: 28,
                       fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Saving Lives Together',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 16,
                     ),
                   ),
                 ],
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.home, color: Colors.teal),
-              title: Text('Home'),
-              onTap: () {
-                Navigator.pop(context);
-              },
+            _buildDrawerItem(
+              context,
+              icon: Icons.home,
+              title: 'Home',
+              onTap: () => Navigator.pop(context),
             ),
-            ListTile(
-              leading: Icon(Icons.person, color: Colors.teal),
-              title: Text('My Profile'),
-              onTap: () {
-                Navigator.pop(context);
-              },
+            _buildDrawerItem(
+              context,
+              icon: Icons.person,
+              title: 'My Profile',
+              onTap: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (context) =>  Profile())),
             ),
-            ListTile(
-              leading: Icon(Icons.info, color: Colors.teal),
-              title: Text('Organ Details'),
-              onTap: () {
-                Navigator.pop(context);
-              },
+            _buildDrawerItem(
+              context,
+              icon: Icons.info,
+              title: 'Organ Details',
+              onTap: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (context) =>  OrganDetails())),
             ),
-            ListTile(
-              leading: Icon(Icons.logout, color: Colors.red),
-              title: Text('Logout'),
+            _buildDrawerItem(
+              context,
+              icon: Icons.logout,
+              title: 'Logout',
+              iconColor: Colors.red,
               onTap: () {
                 Navigator.pop(context);
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Logout'),
+                    content: const Text('Are you sure you want to logout?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) =>  Login()),
+                            (route) => false,
+                          );
+                        },
+                        child: const Text('Logout', style: TextStyle(color: Colors.red)),
+                      ),
+                    ],
+                  ),
+                );
               },
             ),
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            Card(
-              color: Colors.teal.shade50,
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.teal[50]!, Colors.white],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              const Text(
+                'Welcome to Organ Sharing',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal,
+                ),
+                textAlign: TextAlign.center,
               ),
-              child: InkWell(
-                onTap: () {},
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.local_hospital, size: 30, color: Colors.teal),
-                      SizedBox(width: 10),
-                      Text(
-                        'Organ Details',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+              const SizedBox(height: 10),
+              Text(
+                'Save lives by sharing organs and helping those in need.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[700],
+                  height: 1.5,
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Card(
-              color: Colors.teal.shade50,
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: InkWell(
-                onTap: () {},
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.check_circle, size: 30, color: Colors.teal),
-                      SizedBox(width: 10),
-                      Text(
-                        'Check Status',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+              const SizedBox(height: 30),
+              Expanded(
+                child: ListView(
+                  children: [
+                    _buildFeatureCard(
+                      context,
+                      icon: Icons.local_hospital,
+                      title: 'Organ Details',
+                      onTap: () => Navigator.push(
+                          context, MaterialPageRoute(builder: (context) =>  OrganDetails())),
+                    ),
+                    const SizedBox(height: 16),
+                    _buildFeatureCard(
+                      context,
+                      icon: Icons.check_circle,
+                      title: 'Check Status',
+                      onTap: () => Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => const Statuspage())),
+                    ),
+                    const SizedBox(height: 16),
+                    _buildFeatureCard(
+                      context,
+                      icon: Icons.list_alt,
+                      title: 'View Requests',
+                      onTap: () => Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => const RequestsScreen())),
+                    ),
+                    const SizedBox(height: 16),
+                    _buildFeatureCard(
+                      context,
+                      icon: Icons.calendar_today,
+                      title: 'Appointments',
+                      onTap: () => Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => const AppointmentsScreen())),
+                    ),
+                  ],
                 ),
               ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem(BuildContext context, {
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+    Color iconColor = Colors.teal,
+  }) {
+    return ListTile(
+      leading: Icon(icon, color: iconColor),
+      title: Text(
+        title,
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      ),
+      onTap: onTap,
+      hoverColor: Colors.teal[50],
+    );
+  }
+
+  Widget _buildFeatureCard(BuildContext context, {
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return Card(
+      elevation: 8,
+      shadowColor: Colors.teal.withOpacity(0.2),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.teal[50]!, Colors.teal[100]!],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            SizedBox(height: 30),
-            Text(
-              'Welcome to Organ Sharing Platform',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.teal),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              children: [
+                Icon(icon, size: 40, color: Colors.teal[700]),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal[900],
+                    ),
+                  ),
+                ),
+                Icon(Icons.arrow_forward_ios, size: 20, color: Colors.teal[700]),
+              ],
             ),
-            SizedBox(height: 10),
-            Text(
-              'Save lives by sharing organs and helping those in need.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-          ],
+          ),
         ),
       ),
     );

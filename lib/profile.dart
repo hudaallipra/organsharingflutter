@@ -1,11 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:organsharing/services/getprofile.dart';
+import 'package:organsharing/services/loginapi.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
+
   @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  @override
+  void initState() {
+    super.initState();
+    // Fetch profile data here if needed
+    getProfile(loginid.toString()).then((_) {
+      setState(() {
+        // Update the state with the fetched profile data
+      });
+    });
+  }
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+         iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: Colors.teal,
+        title: Text('Profile',style: TextStyle(color: Colors.white),),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -16,16 +37,16 @@ class Profile extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 50,
-                backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+                backgroundImage: NetworkImage('$baseUrl${profileData['image']}' ?? 'https://via.placeholder.com/150'),
               ),
               SizedBox(height: 16),
               Text(
-                'John Doe',
+                profileData['user_name'] ?? 'John Doe',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8),
               Text(
-                'johndoe@example.com',
+                profileData['email'] ?? 'JohnDoe@gmail.com',
                 style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
               SizedBox(height: 24),
@@ -40,27 +61,27 @@ class Profile extends StatelessWidget {
                     children: [
                       ListTile(
                         leading: Icon(Icons.phone),
-                        title: Text('+123 456 7890'),
+                        title: Text(profileData['phone_number'] ?? '123-456-7890'),
                       ),
                       Divider(),
                       ListTile(
                         leading: Icon(Icons.location_on),
-                        title: Text('New York, USA'),
+                        title: Text(profileData['address'] ?? ' 123 Main St, City, Country'),
                       ),
                       Divider(),
                       ListTile(
                         leading: Icon(Icons.person),
-                        title: Text('Male'),
+                        title: Text(profileData['gender'] ?? 'Male'),
                       ),
                       Divider(),
                       ListTile(
                         leading: Icon(Icons.bloodtype),
-                        title: Text('O+'),
+                        title: Text(profileData['blood_group'] ??'O+'),
                       ),
                       Divider(),
                       ListTile(
                         leading: Icon(Icons.email),
-                        title: Text('johndoe@example.com'),
+                        title: Text(profileData['email'] ??'johndoe@example.com'),
                       ),
                     ],
                   ),
